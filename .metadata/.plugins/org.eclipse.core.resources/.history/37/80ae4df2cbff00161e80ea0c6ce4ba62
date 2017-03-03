@@ -1,0 +1,4 @@
+
+public class PQasSortedArray<C extends Comparable<?super C>> implements PQ<C>{
+	private C[] arr;
+}

@@ -1,0 +1,57 @@
+
+public class PQasSortedArray<C extends Comparable<? super C>> implements PQ<C> {
+	private C[] arr;
+	private int currentSize;
+
+	public PQasSortedArray(int size) {
+		arr = (C[]) new Comparable[size];
+		currentSize = 0;
+	}
+
+	public boolean isFull() {
+		return currentSize == arr.length;
+	}
+
+	public boolean isEmpty() {
+		return currentSize == 0;
+	}
+
+	@Override
+	public void insert(C data) {
+		currentSize++;//one more item in array
+		int loc = currentSize;//starts it at 1, current place for the item to be inserted
+		for(;data.compareTo(arr[loc/2])<0;loc = loc/2){ //if the num is smaller, check the parent node loc/2
+			arr[loc] = arr[loc/2];//where to go
+		}
+		arr[loc] = data;//insert
+	}
+
+	@Override
+	public C min() {
+		return arr[1];
+	}
+
+	@Override
+	public C deleteMin() {
+		arr[1]=arr[currentSize--];
+		deleteMinHelper(1);
+		return min();
+	}
+	
+	private void deleteMinHelper(int num){
+		AnyType tmp = arr[num];
+	      
+	      for(int i = 0; 2*num <= currentSize; num = i)
+	      {
+	         i = 2*num;
+
+	         if(i != currentSize &&
+	            arr[i].compareTo(arr[i + 1]) > 0) i++;
+
+	         if(tmp.compareTo(arr[i]) > 0)  arr[num] = arr[i];
+	         else
+	                break;
+	      }
+	      arr[num] = tmp;
+	}
+}

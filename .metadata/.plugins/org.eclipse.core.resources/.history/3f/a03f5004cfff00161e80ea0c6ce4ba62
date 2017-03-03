@@ -1,0 +1,35 @@
+
+public class PQasSortedArray<C extends Comparable<? super C>> implements PQ<C> {
+	private C[] arr;
+	private int currentSize;
+
+	public PQasSortedArray(int size) {
+		arr = (C[]) new Comparable[size];
+		currentSize = 0;
+	}
+
+	public boolean isFull() {
+		return currentSize == arr.length;
+	}
+
+	public boolean isEmpty() {
+		return currentSize == 0;
+	}
+
+	@Override
+	public void insert(C data) {
+		currentSize++;
+		for(;data.compareTo(arr[currentSize/2])<0;)
+	}
+
+	@Override
+	public C min() {
+		return arr[currentSize - 1];
+	}
+
+	@Override
+	public C deleteMin() {
+		currentSize--;
+		return arr[currentSize];
+	}
+}

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename local variable &apos;child&apos; in &apos;PQasSortedArray.deleteMinHelper(...)&apos; to &apos;i&apos;&#x0D;&#x0A;- Original project: &apos;PA3&apos;&#x0D;&#x0A;- Original element: &apos;PQasSortedArray.deleteMinHelper(int).child&apos;&#x0D;&#x0A;- Renamed element: &apos;child&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename local variable &apos;child&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src&lt;{PQasSortedArray.java[PQasSortedArray~deleteMinHelper~I@child!962!971!966!970!I!0!false" name="i" references="true" stamp="1488518637405" version="1.0"/>
+</session>
