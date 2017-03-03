@@ -8,9 +8,8 @@ public class Tester {
 		long startTime, endTime;
 		PQasSortedArray<Double> pq1 = new PQasSortedArray<>(n);
 		PriorityQueue<Double> pq2 = new PriorityQueue<>(n);
-		PriorityQueue<Double> pqHeap = new PriorityQueue<>(n);
+
 		Random r = new Random();
-		double[] arr1 = new double[n];
 		double[] arr2 = new double[n];
 		for (int i = 0; i < n; i++) {
 			arr1[i] = r.nextDouble();
