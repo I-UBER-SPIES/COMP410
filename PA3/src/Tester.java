@@ -3,34 +3,55 @@ import java.util.Random;
 
 public class Tester {
 	public static int n = 666;
+	
 	public static void main(String[] args) {
-		long startTime,endTime;
+		PQasSortedArray<Double> pqHeap = new PQasSortedArray<>(n);
+		long startTime, endTime;
+		
 		PQasSortedArray<Double> pq1 = new PQasSortedArray<>(n);
 		PriorityQueue<Double> pq2 = new PriorityQueue<>(n);
 		
 		Random r = new Random();
 		double[] arr1 = new double[n];
 		double[] arr2 = new double[n];
-		for(int i=0;i < n;i++){
+		double[] arrHeap = new double[n];
+		for (int i = 0; i < n; i++) {
 			arr1[i] = r.nextDouble();
 			arr2[i] = arr1[i];
+			arrHeap[i] = arr1[i];
 		}
-		startTime=System.nanoTime();
-		for (int i=0; i < arr1.length; i++)pq1.insert(arr1[i]);
-		for (int i=arr1.length-1; i >=0 ; i--)arr1[i] = pq1.deleteMin();
-		endTime=System.nanoTime();
-		System.out.println("Took " + ((endTime - startTime)/1000000) + " time units");
+
+		startTime = System.nanoTime();
+		for (int i = 0; i < arr1.length; i++)
+			pq1.insert(arr1[i]);
+		for (int i = arr1.length - 1; i >= 0; i--)
+			arr1[i] = pq1.deleteMin();
+		endTime = System.nanoTime();
+		System.out.println("Took " + ((endTime - startTime) / 1000000) + " time units");
+
+		startTime = System.nanoTime();
+		for (int i = 0; i < arr1.length; i++)
+			pq2.offer(arr1[i]); // "offer()" is insert()
+		for (int i = arr1.length - 1; i >= 0; i--)
+			arr1[i] = pq2.poll(); // "poll()" is deleteMin()
+		endTime = System.nanoTime();
+		System.out.println("Took " + ((endTime - startTime) / 1000000) + " time units");
 		
 		startTime = System.nanoTime();
-		for (int i=0; i < arr1.length; i++)pq2.offer(arr1[i]); // "offer()" is insert()
-		for (int i=arr1.length-1; i >=0 ; i--)arr1[i] = pq2.poll(); // "poll()" is deleteMin()
+		heapSort(arrHeap);
 		endTime = System.nanoTime();
-		System.out.println("Took " + ((endTime - startTime)/1000000) + " time units");
-
+		System.out.println("Took " + ((endTime - startTime) / 1000000) + " time units");
 	}
-	
-	public static void heapSort (double[] arr){
-		
+
+	public static void heapSort(double[] arr) {
+		for (int i = 0; i < arr.length; i++){
+			pqHeap.insert(arr[i]);
+		}
+			
+		for (int i = arr.length - 1; i >= 0; i--){
+			arr[i] = pqHeap.deleteMin();
+		}
+			
 	}
 
 }
