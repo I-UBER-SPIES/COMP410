@@ -16,21 +16,31 @@ public class PQasSortedArray<C extends Comparable<? super C>> implements PQ<C> {
 		return currentSize == 0;
 	}
 
-	@Override
+	@Override//our book has this code
 	public void insert(C data) {
-		currentSize++;// one more item in array
-		int loc = currentSize;// starts it at 1, current place for the item to
-								// be inserted
-		for (; data.compareTo(arr[loc / 2]) < 0; loc = loc / 2) { // if the num
-																	// is
-																	// smaller,
-																	// check the
-																	// parent
-																	// node
-																	// loc/2
-			arr[loc] = arr[loc / 2];// where to go
+		if (currentSize == arr.length - 1) {
+			enlargeArray(arr.length * 2 + 1);
 		}
-		arr[loc] = data;// insert
+		// Percolate up
+		int hole = ++currentSize;
+		for (arr[0] = data; data.compareTo(arr[hole / 2]) < 0; hole /= 2)
+			arr[hole] = arr[hole / 2];
+		arr[hole] = data;
+		// currentSize++;// one more item in array
+		// int loc = currentSize;// starts it at 1, current place for the item
+		// to
+		// // be inserted
+		// for (; data.compareTo(arr[loc / 2]) < 0; loc = loc / 2) {
+		// arr[loc] = arr[loc / 2];// where to go
+		// }
+		// arr[loc] = data;// insert
+	}
+
+	private void enlargeArray(int newSize) {
+		C[] old = arr;
+		arr = (C[]) new Comparable[newSize];
+		for (int i = 0; i < old.length; i++)
+			arr[i] = old[i];
 	}
 
 	@Override
@@ -40,23 +50,25 @@ public class PQasSortedArray<C extends Comparable<? super C>> implements PQ<C> {
 
 	@Override
 	public C deleteMin() {
+		C minItem = min();
 		arr[1] = arr[currentSize--];
 		deleteMinHelper(1);
-		return min();
+		return minItem;
 	}
 
-	private void deleteMinHelper(int num) {
-		C tmp = arr[num];//copy of it
-		for (int i = 0; 2 * num <= currentSize; num = i) {
-			i = num*2;
-			if (i != currentSize && arr[i].compareTo(arr[i + 1]) > 0) {
-				i++;
-			} else if (tmp.compareTo(arr[i]) > 0) {
-				arr[num] = arr[i];
-			} else {
+	private void deleteMinHelper(int hole) {
+		int child;
+		C tmp = arr[hole];
+
+		for (; hole * 2 <= currentSize; hole = child) {
+			child = hole * 2;
+			if (child != currentSize && arr[child + 1].compareTo(arr[child]) < 0)
+				child++;
+			if (arr[child].compareTo(tmp) < 0)
+				arr[hole] = arr[child];
+			else
 				break;
-			}
 		}
-		arr[num] = tmp;
+		arr[hole] = tmp;
 	}
 }
