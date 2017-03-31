@@ -7,13 +7,15 @@ public class AVLtree<K extends Comparable<? super K>, D> {
 	// public AVLNode parent;
 	public AVLtree<K,D> left;
 	public AVLtree<K,D> right;
+	boolean active;
 
 	public AVLtree(K k, D d) {
 		key = k;
 		data = d;
-		this.height = 0;
+		height = 0;
 		left = null;
 		right = null;
+		active = true;
 	}
 
 }

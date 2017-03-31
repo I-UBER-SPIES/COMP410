@@ -34,22 +34,43 @@ public class DDasAVL<K extends Comparable<? super K>, D> {
 		if(root == null){
 			root = new AVLtree<K, D>(k, d);
 		}
-		int compareKey = root.key.compareTo(k);
-		if(compareKey < 0){
-			
-		}
-		else if{
-			if(root.key.compareTo(k) )
-		}
+		int compareKey = t.key.compareTo(k);
+		if(compareKey < 0){ // < 0 means k is < t.key
+			t.left = insert(t.left,k, d);
+		}else if(compareKey > 0){
+			t.right = insert(t.right,k,d);
+		}else;
 		
 		return balance(root);
 	} // Complete this
 
-	private D find(AVLtree<K,D> t, K k){...} // Complete this
+	private D find(AVLtree<K,D> t, K k){
+		while(t!=null){
+			int compareKey = k.compareTo(t.key);
+			if(compareKey < 0){
+				t = t.left;
+			}
+			else if(compareKey > 0){
+				t = t.right;
+			}
+			if(compareKey == 0){
+				return t.data;
+			}
+		}
+		
+	} // Complete this
 
-	private AVLtree<K,D> findMin(AVLtree<K,D> t){...}// Complete this
+	private AVLtree<K,D> findMin(AVLtree<K,D> t){
+		if(t==null) return t;
+		while(t.left != null){
+			t=t.left;
+		}
+		return t;
+	}// Complete this
 
-	private AVLtree<K,D> remove(AVLtree<K,D> t, K k){...} // Implement using LAZY
+	private AVLtree<K,D> remove(AVLtree<K,D> t, K k){
+		
+	} // Implement using LAZY
 														// DELETE!!
 
 	private int height(AVLtree<K, D> t) {
@@ -74,12 +95,20 @@ public class DDasAVL<K extends Comparable<? super K>, D> {
 		return t;
 	}
 
-	private AVLtree<K,D> rotateLL(AVLtree<K,D> k2){...} // Complete this
+	private AVLtree<K,D> rotateLL(AVLtree<K,D> k2){
+		
+	} // Complete this
 
-	private AVLtree<K,D> rotateLR(AVLtree<K,D> k2){...} // Complete this
+	private AVLtree<K,D> rotateLR(AVLtree<K,D> k2){
+		
+	} // Complete this
 
-	private AVLtree<K,D> rotateRR(AVLtree<K,D> k2){...} // Complete this
+	private AVLtree<K,D> rotateRR(AVLtree<K,D> k2){
+		
+	} // Complete this
 
-	private AVLtree<K,D> rotateRL(AVLtree<K,D> k2){...} // Complete this
+	private AVLtree<K,D> rotateRL(AVLtree<K,D> k2){
+		
+	} // Complete this
 
 }
