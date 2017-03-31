@@ -30,7 +30,19 @@ public class DDasAVL<K extends Comparable<? super K>, D> {
 	}// Not relevant to DD's -- used for comparing performance with AVL trees
 
 	private AVLtree<K, D> insert(AVLtree<K, D> t, K k, D d) {
-
+		
+		if(root == null){
+			root = new AVLtree<K, D>(k, d);
+		}
+		int compareKey = root.key.compareTo(k);
+		if(compareKey < 0){
+			
+		}
+		else if{
+			if(root.key.compareTo(k) )
+		}
+		
+		return balance(root);
 	} // Complete this
 
 	private D find(AVLtree<K,D> t, K k){...} // Complete this
