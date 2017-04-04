@@ -31,8 +31,8 @@ public class DDasAVL<K extends Comparable<? super K>, D> {
 
 	private AVLtree<K, D> insert(AVLtree<K, D> t, K k, D d) {
 
-		if (root == null) {
-			root = new AVLtree<K, D>(k, d);
+		if (t == null) {
+			return new AVLtree<K, D>(k, d, null, null);
 		}
 		int compareKey = k.compareTo(t.key);
 		if (compareKey < 0) { // < 0 means k is < t.key
@@ -40,7 +40,7 @@ public class DDasAVL<K extends Comparable<? super K>, D> {
 		} else if (compareKey > 0) {
 			t.right = insert(t.right, k, d);
 		} else if (compareKey == 0) {
-			t.active = true;
+			t.dead = false;
 			t.data = d;
 		}
 
@@ -49,39 +49,37 @@ public class DDasAVL<K extends Comparable<? super K>, D> {
 
 	private D find(AVLtree<K, D> t, K k) {
 
-		while (t != null) {
-			int compareKey = k.compareTo(t.key);
-			if (compareKey < 0) {
-				t = t.left;
-			} else if (compareKey > 0) {
-				t = t.right;
-			} else {
-				return t.data;
-			}
+		if (t == null) {
+			return null;
 		}
-		return null;
+
+		int compareKey = k.compareTo(t.key);
+		if (compareKey < 0) {
+			return (D) find(t.left, k);
+		} else if (compareKey > 0) {
+			return (D) find(t.right, k);
+		} else if (!t.dead) {
+			return t.data;
+		} else {
+			return null;
+		}
+
 	} // Complete this
 
 	private AVLtree<K, D> findMin(AVLtree<K, D> t) {
-		if (t == null)
+		if (t.left == null || !t.dead)
 			return t;
-		while (t.left != null) {
-			t = t.left;
-		}
-		return t;
+		return findMin(t.left);
 	}// Complete this
 
 	private AVLtree<K, D> remove(AVLtree<K, D> t, K k) {
-		if (t == null)
-			return null;
-		int compareKey = k.compareTo(t.key);
-		if (compareKey < 0)
-			remove(t.left, k);
-		else if (compareKey > 0)
-			remove(t.right, k);
-		else
-			t.active = false;
-		return t;
+		if (t == null) return null;
+        int compareResult = k.compareTo(t.key);
+        if (compareResult < 0) remove(t.left, k);
+        else if (compareResult > 0) remove(t.right, k);
+        else t.dead = true;
+
+        return t;
 	} // Implement using LAZY DELETE!!
 
 	private int height(AVLtree<K, D> t) {
@@ -108,30 +106,30 @@ public class DDasAVL<K extends Comparable<? super K>, D> {
 
 	private AVLtree<K, D> rotateLL(AVLtree<K, D> k2) {
 		AVLtree<K, D> k1 = k2.left;
-		k2.left = k1.right;
-		k1.right = k2;
-		k2.height = Math.max(height(k2.left), height(k2.right)) + 1;
-		k1.height = Math.max(height(k1.left), k2.height) + 1;
-		return k1;
+        k2.left = k1.right;
+        k1.right = k2;
+        k2.height = Math.max(height(k2.left), height(k2.right)) + 1;
+        k1.height = Math.max(height(k1.left), k2.height) + 1;
+        return k1;
 	} // Complete this
 
 	private AVLtree<K, D> rotateLR(AVLtree<K, D> k2) {
 		k2.left = rotateRR(k2.left);
-		return rotateLL(k2);
+        return rotateLL(k2);
 	} // Complete this
 
 	private AVLtree<K, D> rotateRR(AVLtree<K, D> k2) {
 		AVLtree<K, D> k1 = k2.right;
-		k2.right = k1.left;
-		k1.left = k2;
-		k2.height = Math.max(height(k2.left), height(k2.right)) + 1;
-		k1.height = Math.max(height(k1.right), k2.height) + 1;
-		return k1;
+        k2.right = k1.left;
+        k1.left = k2;
+        k2.height = Math.max(height(k2.left), height(k2.right)) + 1;
+        k1.height = Math.max(height(k1.right), k2.height) + 1;
+        return k1;
 	} // Complete this
 
 	private AVLtree<K, D> rotateRL(AVLtree<K, D> k2) {
 		k2.right = rotateLL(k2.right);
-		return rotateRR(k2);
+        return rotateRR(k2);
 	} // Complete this
 
 	public AVLtree<K, D> getRootTree() {
