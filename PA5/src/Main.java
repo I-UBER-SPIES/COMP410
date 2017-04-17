@@ -63,12 +63,8 @@ public class Main {
 		}
 		Scanner fileIn = new Scanner(new File(args[0]));
 		vertices = ReadGraph.readVertices(fileIn);
-		for (int i = 0; i < vertices.length; i++)
-			System.out.println(vertices[i]);
 		adjList = ReadGraph.readEdgesAdjList(fileIn);
 		String[] sorted = topSort();
-		for (int i = 0; i < sorted.length; i++)
-			System.out.println(sorted[i]);
 
 		/*
 		 * At this point, "sorted" contains the vertices in topologically-sorted
