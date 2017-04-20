@@ -13,28 +13,21 @@ public class Main {
 	 */
 
 	public static String[] topSort() {
-		int[] indegree = new int[vertices.length];
-		for (int i = 0; i < indegree.length; i++) {
+		Stack<String> stack = new Stack<String>();
+		int[] indegrees = new int[vertices.length];
+		String[] sorted = new String[vertices.length];
+		for (int i = 0; i < indegrees.length; i++) {
 			AdjListNode adjNode = adjList[i];
 			while (adjNode != null) {
 				int vertex = adjNode.v;
-				++indegree[vertex];
+				++indegrees[vertex];
 				adjNode = adjNode.next;
 			}
 		}
-
-		Stack<String> stack = new Stack<String>();
-		for (int i = 0; i < indegree.length; i++) {
-			if (indegree[i] == 0)
-				stack.push(vertices[i]);
+		for (int i = 0; i < indegrees.length; i++) {
+			if (indegrees[i] == 0) stack.push(vertices[i]);	
 		}
-
-		if (stack.isEmpty()) {
-			return new String[vertices.length];
-		}
-
-		String[] sorted = new String[vertices.length];
-
+		if (stack.isEmpty()) return new String[vertices.length];
 		int counter = 0;
 		while (!stack.isEmpty()) {
 			String v = stack.pop();
@@ -42,30 +35,26 @@ public class Main {
 			int index = Arrays.binarySearch(vertices, v);
 			AdjListNode adjNode = adjList[index];
 			while (adjNode != null) {
-				if (--indegree[adjNode.v] == 0)
+				if (--indegrees[adjNode.v] == 0)
 					stack.push(vertices[adjNode.v]);
 				adjNode = adjNode.next;
 			}
 			counter++;
 		}
-
-		if (counter != vertices.length) {
-			return new String[vertices.length];
-		}
-
+		if (counter != vertices.length) return new String[vertices.length];
 		return sorted;
 	}
 
-	public static void main(String[] args) throws FileNotFoundException {
+	public static void main(String[] args) {
 		if (args.length != 1) {
 			System.err.println("Incorrect number of args passed");
 			System.exit(-1);
 		}
+		
 		Scanner fileIn = new Scanner(new File(args[0]));
 		vertices = ReadGraph.readVertices(fileIn);
 		adjList = ReadGraph.readEdgesAdjList(fileIn);
 		String[] sorted = topSort();
-
 		/*
 		 * At this point, "sorted" contains the vertices in topologically-sorted
 		 * order (or all NULLs if the graph is not acyclic
